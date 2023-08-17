@@ -8,9 +8,9 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using JetBrains.Annotations;
 using MelonLoader;
-using HappyLib.Core;
 using HappyLib.DataTypes;
 using UnityEngine;
+using STLib;
 
 namespace Patches
 {
@@ -27,9 +27,11 @@ namespace Patches
     internal static class OnChatMessagePatch
     {
         [HarmonyPrefix]
-        internal static void OnChatMessage(ref string NAEFFPHCJKL, ref string NOFLIGCKLDF, ref string PBPBALMOMEM, MultiplayerChat __instance)
+        internal static bool OnChatMessage(ref string NAEFFPHCJKL, ref string NOFLIGCKLDF, ref string PBPBALMOMEM, MultiplayerChat __instance)
         {
             Events.OnChatMessage(NAEFFPHCJKL, NOFLIGCKLDF, PBPBALMOMEM, __instance);
+            return RPCManager.CheckForRPC(NOFLIGCKLDF, PBPBALMOMEM);
+
         }
     }
     [HarmonyPatch(typeof(WhoKilledWho), "networkAddMessage")]

@@ -53,8 +53,6 @@ namespace HappyLib
             {
                 get
                 {
-                    if (!IsLocal)
-                        MelonLogger.Warning("Warning! The remote player does not contain the FPS components by default.");
                     m_characterController ??= m_playerObject.GetComponent<CharacterController>();
                     if (m_characterController == null)
                         MelonLogger.Error($"Couldn't find {nameof(CharacterController)}");
@@ -500,8 +498,22 @@ namespace HappyLib
         {
             return gameObject.GetComponents<Component>();
         }
+        public static string ToBase64(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+        public static string FromBase64(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+        private static string GetFunctionName(Action method)
+        {
+            return method.Method.Name;
+        }
     }
-    
+
     public struct LibInfo
     {
         public string Name;
